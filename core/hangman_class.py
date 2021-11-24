@@ -1,11 +1,11 @@
-from core.file_class import Record
+from core.history_class import History
 from datetime import datetime
 
 
 class Hangman:
     def __init__(self):
-        self.words_file_instance = Record("words_file.txt")
-        self.history_file_instance = Record("history_points.txt")
+        self.words_file_instance = History("words_file.txt")
+        self.history_file_instance = History("history_points.txt")
         self.word = self.words_file_instance.choose_word()
         self.name = ''
         self.no_points = 0
@@ -84,15 +84,16 @@ class Hangman:
         data = f"{self.name}, {self.no_points}, {datetime.now().strftime('%d/%m/%Y %H:%M:%S')} \n"
         self.history_file_instance.build_history(data)
 
-    def _print_ranking(self):
-        """
-        This method is always returned at the end of a game. It prints the history of plays by making a ranking.
-        :return: This method does not return something
-        """
-        self.history_file_instance.build_ranking()
-        ranking = self.history_file_instance.read_lines()
-        for line in ranking:
-            print(line)
+    # def _print_ranking(self):
+    #     """
+    #     This method is always returned at the end of a game. It prints the history of plays by making a ranking.
+    #     :return: This method does not return something
+    #     """
+    #     self.history_file_instance.build_ranking()
+    #
+    #     ranking = self.history_file_instance.read_lines()
+    #     for line in ranking:
+    #         print(line)
 
     def play_game(self):
         """
@@ -107,4 +108,4 @@ class Hangman:
         self._calculate_points()
         self._add_user_to_history()
         self._show_results()
-        self._print_ranking()
+        self.history_file_instance.print_ranking()
